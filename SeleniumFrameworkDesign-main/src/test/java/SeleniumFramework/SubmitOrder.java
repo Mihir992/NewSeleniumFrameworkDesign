@@ -59,6 +59,6 @@ public class SubmitOrder extends BaseTest {
 		confirmationPage.verifyConfirmationMessage();
 		confirmationPage.verifyNumberOfItemsOrderPage();
 		driver.close();
-		 //driver clsoe ////QA
+		 //driver clsoe ////QA AAAAAAAAAAAAAAAAAA
 	}
 }
