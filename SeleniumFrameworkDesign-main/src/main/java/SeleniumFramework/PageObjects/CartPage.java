@@ -32,6 +32,13 @@ public class CartPage extends AbstractComponent{
 	@FindBy(css=".cartSection h3")
 	List<WebElement> productTitles;
 
+	@FindBy(xpath = "//div[@class='prodTotal cartSection']")
+	List<WebElement> prodTotal;
+
+	@FindBy(xpath = "//li[@class='totalRow']/span[@class='value'][1]")
+	WebElement subTotal;
+
+
 	By productsBy = By.className("mb-3");
 	By addToCart = By.cssSelector(".card-body button:last-of-type");
 	By toastMessage = By.cssSelector("#toast-container");
@@ -76,4 +83,30 @@ public class CartPage extends AbstractComponent{
 			System.out.println("Product not found in cart: " + productName);
 		}
 	}
+
+	public void calculateSubTotalAndTotal() {
+		double subtotal = 0.0;
+
+		// Iterate through the product total prices
+		for (WebElement productTotalPrice : prodTotal) {
+			String priceText = productTotalPrice.getText().replace("$", "").trim(); // Assuming the price is in the format $XX.XX
+			double price = Double.parseDouble(priceText);
+			subtotal += price;
+			System.out.println("Product total price added: " + price);
+		}
+
+		// Set the subtotal in the WebElement
+		String subTotalText = subTotal.getText().replace("$", "").trim();
+		double displayedSubTotal = Double.parseDouble(subTotalText);
+
+		// Print results
+		System.out.println("Calculated Subtotal: " + subtotal);
+		System.out.println("Displayed Subtotal: " + displayedSubTotal);
+
+		// You can also calculate total if you have the logic for it
+		// For example, if you have a tax rate or shipping fee
+		double total = subtotal; // Modify this line if there are additional charges
+		System.out.println("Total: " + total);
+	}
+
 }

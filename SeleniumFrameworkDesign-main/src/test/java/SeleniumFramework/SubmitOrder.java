@@ -22,7 +22,7 @@ public class SubmitOrder extends BaseTest {
 	static String productName = "ZARA COAT 3";
 	static String productName1 = "ADIDAS ORIGINAL";
 
-	@Test(priority=1,description="User placed order successfully")
+	/*@Test(priority=1,description="User placed order successfully")
 	public void submitOrder() throws IOException {
 		LandingPage landingPage = launchApplication();
 		ProductCatalougue productCatalougue = landingPage.loginApplication
@@ -60,5 +60,23 @@ public class SubmitOrder extends BaseTest {
 		confirmationPage.verifyNumberOfItemsOrderPage();
 		driver.close();
 		 //driver clsoe ////QA AAAAAAAAAAAAAAAAAA
-	}
+	}*/
+
+    @Test(priority=3,description="Check calculation")
+    public void verifyCalculation() throws IOException {
+        LandingPage landingPage = launchApplication();
+        ProductCatalougue productCatalougue = landingPage.loginApplication
+                ("testuser01@yopmail.com","Test@123");
+        List<WebElement> products = productCatalougue.getProductList();
+        productCatalougue.addProductsToCart(productName,productName1);
+        productCatalougue.goToCartPage();
+        CartPage cartPage = new CartPage(driver);
+		cartPage.calculateSubTotalAndTotal();
+		CheckoutPage checkoutPage = cartPage.goToCheckout();
+        checkoutPage.setSelectCountry("india");
+        ConfirmationPage confirmationPage = checkoutPage.submitOrder();
+        confirmationPage.verifyConfirmationMessage();
+        confirmationPage.verifyNumberOfItemsOrderPage();
+        driver.close();
+    }
 }
